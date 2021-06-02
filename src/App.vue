@@ -1,5 +1,6 @@
 <template>
   <h1>ToDo App</h1>
+  <!-- prevents the form from being submitted after adding a todo -->
   <form @submit.prevent="addTodo()">
     <label>New ToDo </label>
     <input v-model="newTodo" name="newTodo" autocomplete="off" />
@@ -7,13 +8,16 @@
   </form>
   <h2>ToDo List</h2>
   <ul>
+    <!-- iterates through the todo in todos to print out each item. -->
     <li v-for="(todo, index) in todos" :key="index">
       <span :class="{ done: todo.done }" @click="doneTodo(todo)">{{
         todo.content
       }}</span>
+      <!-- @click to remove the todo item -->
       <button @click="removeTodo(index)">Remove</button>
     </li>
   </ul>
+  <!-- displays if no items in the todolist -->
   <h4 v-if="todos.length === 0">Empty list.</h4>
 </template>
 
