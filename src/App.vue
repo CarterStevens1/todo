@@ -4,15 +4,19 @@
   <form @submit.prevent="addTodo()">
     <label>New ToDo </label>
     <input v-model="newTodo" name="newTodo" autocomplete="off" />
+    <label>Description</label>
+    <input v-model="todoDesc" name="todoDesc" autocomplete="off" />
     <button>Add ToDo</button>
   </form>
   <h2>ToDo List</h2>
   <ul>
     <!-- iterates through the todo in todos to print out each item. -->
     <li v-for="(todo, index) in todos" :key="index">
-      <span :class="{ done: todo.done }" @click="doneTodo(todo)">{{
-        todo.content
-      }}</span>
+      <span :class="{ done: todo.done }" @click="doneTodo(todo)"
+        >{{ todo.content }} <br />
+
+        <p class="description">{{ todo.desc }}</p></span
+      >
       <!-- @click to remove the todo item -->
       <button @click="removeTodo(index)">Remove</button>
     </li>
@@ -27,6 +31,7 @@ export default {
   name: "App",
   setup() {
     const newTodo = ref("");
+    const todoDesc = ref("");
     const defaultData = [
       {
         done: false,
@@ -42,8 +47,11 @@ export default {
         todos.value.push({
           done: false,
           content: newTodo.value,
+          desc: todoDesc.value,
         });
+
         newTodo.value = "";
+        todoDesc.value = "";
       }
       saveData();
     }
@@ -65,6 +73,7 @@ export default {
     return {
       todos,
       newTodo,
+      todoDesc,
       addTodo,
       doneTodo,
       removeTodo,
@@ -159,6 +168,9 @@ body {
         margin-bottom: $size2;
         span {
           cursor: pointer;
+        }
+        .description {
+          font-size: 20px;
         }
         .done {
           text-decoration: line-through;
